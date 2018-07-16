@@ -1,0 +1,4046 @@
+
+
+
+
+
+
+
+
+<html>
+<head>
+
+<style>
+  body {
+    background-color: #FFFFFF;
+}
+
+
+table.locationSearch, table.locationSearchResults {
+  border-collapse: collapse;
+    padding: 0px;
+    margin:  0px;
+    width: 100%;
+}
+
+table.locationSearch td {
+    padding: 1px;
+    margin:  0px;
+    border: 0px;
+    font: icon;
+    text-align: center;
+}
+
+#locationSearchMsg {
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0px;
+}
+
+table.locationSearchResults td {
+    padding: 2px;
+    margin:  0px;
+    border: 1px solid black;
+    font: icon;
+    text-align: center;
+}
+
+table.locationSearch td input{
+    padding: 1px;
+    margin:  0px 1px;
+    font: icon;
+}
+
+table.locationSearch th {
+  padding: 0px 2px;
+    font: icon;
+}
+
+td {
+    font-family: arial;
+    font-size: 9pt;
+    margin: 0;
+    padding: 2;
+}
+
+table {
+  border-collapse: collapse;
+    padding: 0px;
+    margin:  0px;
+    font: icon;
+}
+
+table.HEADER {
+    background-color: white;
+    border: 0;
+}
+
+table.FOOTER {}
+
+td.BOTTOM_BORDER {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-bottom: 1 solid black;
+}
+
+hr {
+  border: 0;
+  border-top: 1 solid #000;
+  margin: 0 auto;
+  height: 1px;
+}
+
+th {
+  margin: 0;
+  padding: 2;
+}
+
+td.borderEven, td.borderOdd {
+    font: icon;
+    background-color: #999999;
+    border: 1 solid black;
+    text-align: center;
+}
+
+td.borderOdd {
+    background-color: #CCCCCC;
+}
+
+
+td.PAD {
+    font-family: arial;
+    font-size: 9pt;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 2px
+}
+font.LOGIN_HEADER {
+    font-size: 17pt;
+    color: white;
+    color: #002c9e;
+    font-weight: 800;
+}
+font.LOGIN_TITLE {
+    font-size: 14pt;
+    color: white;
+  color: #002c9e;
+    font-weight: 800;
+}
+font.SECTION_TITLE {
+    font-size: 14pt;
+    color: white;
+  color: #002c9e;
+    font-weight: 400;
+}
+font.ERROR {
+    color: RED;
+  color: #ff0016;
+    font-weight: 800
+}
+a:link {
+    color: #333366;
+    font-weight: 800;
+}
+a:visited {
+    color: #333366;
+    font-weight: 800;
+}
+.nospace {
+    padding: 0px;
+    margin:  0px;
+    border:  0px;
+    border-collapse: collapse;
+}
+
+</style>
+<script>
+  function digitalTracker(windowName){
+  window.open(windowName,"digitalTracker");
+}
+
+function helpWindow(windowName){
+//  window.open(windowName,"help","scrollbars=yes");
+  window.open(windowName,"help");
+}
+
+
+  
+// creates a javascript date object from a date with mm-dd-yyyy format.
+function parseDateString(strIn) {
+    arrayDate = strIn.split("-");
+    return new Date(arrayDate[2],arrayDate[0]-1,arrayDate[1]);
+}
+
+// creates a javascript date object from a date with mm-dd-yy format.
+function parseDateStringYY(strIn) {
+    arrayDate = strIn.split("-");
+    return new Date('20' + arrayDate[2],arrayDate[0]-1,arrayDate[1]);
+}
+
+
+function checkDateRangeValid(fromDate, thruDate){
+  if(fromDate.value.length == 0 || thruDate.value.length == 0) {
+    return true;
+  } // if
+  fromArrayDate = fromDate.value.split("-");
+  thruArrayDate = thruDate.value.split("-");
+  if(new Date(fromArrayDate[2],fromArrayDate[0]-1,fromArrayDate[1]) > new Date(thruArrayDate[2],thruArrayDate[0]-1,thruArrayDate[1]) ){
+    return false;
+  } // if
+  return true;
+} // checkDateRangeValid
+
+function isValidNumeric(s) {
+
+  if(s != null){
+     var validChars = new Array("1","2","3","4","5","6","7","8","9","0",".",",");
+     for (i=0; i < s.length; i++) {
+      var c = s.charAt(i);
+      var found = "false";
+      for (j=0; j < validChars.length; j++) {
+      if (c == validChars[j]) {
+        found = "true";
+       }
+      }
+      if (found == "false") return false;
+     }
+     return true;
+  }
+}
+
+
+
+function checkdate(objName) {
+  var datefield = objName;
+  if (chkdate(objName) == false) {
+  datefield.select();
+  alert("That date is invalid.  Date Format is MM-DD-YYYY");
+  datefield.focus();
+  return false;
+  }
+  else {
+  return true;
+     }
+}
+
+function chkdate(objName) {
+var strDatestyle = "US"; //United States date style
+//var strDatestyle = "EU";  //European date style
+var strDate;
+var strDateArray;
+var strDay;
+var strMonth;
+var strYear;
+var intday;
+var intMonth;
+var intYear;
+var booFound = false;
+var datefield = objName;
+var strSeparatorArray = new Array("-"," ","/",".");
+var intElementNr;
+var err = 0;
+var strMonthArray = new Array(12);
+strMonthArray[0] = "Jan";
+strMonthArray[1] = "Feb";
+strMonthArray[2] = "Mar";
+strMonthArray[3] = "Apr";
+strMonthArray[4] = "May";
+strMonthArray[5] = "Jun";
+strMonthArray[6] = "Jul";
+strMonthArray[7] = "Aug";
+strMonthArray[8] = "Sep";
+strMonthArray[9] = "Oct";
+strMonthArray[10] = "Nov";
+strMonthArray[11] = "Dec";
+strDate = datefield.value;
+if (strDate.length < 1) {
+return true;
+}
+for (intElementNr = 0; intElementNr < strSeparatorArray.length; intElementNr++) {
+if (strDate.indexOf(strSeparatorArray[intElementNr]) != -1) {
+strDateArray = strDate.split(strSeparatorArray[intElementNr]);
+if (strDateArray.length != 3) {
+err = 1;
+return false;
+}
+else {
+strDay = strDateArray[0];
+strMonth = strDateArray[1];
+strYear = strDateArray[2];
+}
+booFound = true;
+   }
+}
+if (booFound == false) {
+if (strDate.length>5) {
+strDay = strDate.substr(0, 2);
+strMonth = strDate.substr(2, 2);
+strYear = strDate.substr(4);
+   }
+else return false;
+}
+if (strYear.length == 2) {
+strYear = '20' + strYear;
+}
+// US style
+if (strDatestyle == "US") {
+strTemp = strDay;
+strDay = strMonth;
+strMonth = strTemp;
+}
+intday = parseInt(strDay, 10);
+if (isNaN(intday)) {
+err = 2;
+return false;
+}
+intMonth = parseInt(strMonth, 10);
+if (isNaN(intMonth)) {
+for (i = 0;i<12;i++) {
+if (strMonth.toUpperCase() == strMonthArray[i].toUpperCase()) {
+intMonth = i+1;
+strMonth = strMonthArray[i];
+i = 12;
+   }
+}
+if (isNaN(intMonth)) {
+err = 3;
+return false;
+   }
+}
+intYear = parseInt(strYear, 10);
+if (isNaN(intYear)) {
+err = 4;
+return false;
+}
+if (intMonth>12 || intMonth<1) {
+err = 5;
+return false;
+}
+if ((intMonth == 1 || intMonth == 3 || intMonth == 5 || intMonth == 7 || intMonth == 8 || intMonth == 10 || intMonth == 12) && (intday > 31 || intday < 1)) {
+err = 6;
+return false;
+}
+if ((intMonth == 4 || intMonth == 6 || intMonth == 9 || intMonth == 11) && (intday > 30 || intday < 1)) {
+err = 7;
+return false;
+}
+if (intMonth == 2) {
+if (intday < 1) {
+err = 8;
+return false;
+}
+if (LeapYear(intYear) == true) {
+if (intday > 29) {
+err = 9;
+return false;
+}
+}
+else {
+if (intday > 28) {
+err = 10;
+return false;
+}
+}
+}
+if (strDatestyle == "US") {
+//datefield.value = strMonthArray[intMonth-1] + " " + intday+" " + strYear;
+
+  if(intMonth < 10){
+    strMonth = "0" + intMonth;
+  }
+  if(intday < 10){
+    strDay = "0" + intday;
+  }
+  //alert(intYear);
+  if(intYear < 100){
+  //alert("make 20 +");
+    strYear = "20" + intYear;
+  }
+  if(intYear < 1000){
+  //alert("make 2 +");
+    strYear = "2" + intYear;
+  }
+
+  datefield.value = strMonth + "-" + strDay + "-" + strYear;
+}
+else {
+datefield.value = intday + " " + strMonthArray[intMonth-1] + " " + strYear;
+}
+return true;
+}
+function LeapYear(intYear) {
+if (intYear % 100 == 0) {
+if (intYear % 400 == 0) { return true; }
+}
+else {
+if ((intYear % 4) == 0) { return true; }
+}
+return false;
+}
+
+function doDateCheck(from, to) {
+  if (Date.parse(from.value) <= Date.parse(to.value)) {
+    alert("The dates are valid.");
+  }
+  else {
+    if (from.value == "" || to.value == "")
+      alert("Both dates must be entered.");
+    else
+    alert("To date must occur after the from date.");
+   }
+}
+
+function doDateMagic(formInput,addValue,startDate,endDate){
+  //alert("inside days to add:");
+  //alert(addValue);
+  var strDate = "";
+  var fixedDate = null;
+  //alert("StartDate:" + startDate);
+  //alert("EndDate:" + endDate);
+
+  //if(checkdate(formInput)){
+
+    strDate = formInput.value;
+    arrayDate = strDate.split("-");
+
+    month = arrayDate[0];
+    day   = arrayDate[1];
+    year  = arrayDate[2];
+
+    theDate = new Date(year,month-1,day);
+    //alert("ok..adding the days...continue adding 1 if Saturday or Sunday is the initial result");
+    do {
+      //alert(addValue);
+      milli = Date.parse(theDate) + (addValue * 24 * 60 * 60 * 1000);
+      theNewDate = new Date(milli);
+      //alert(theNewDate);
+      //alert(theNewDate.toString());
+      //alert(theNewDate.getDay());
+      addValue++;
+    } while(theNewDate.getDay() == 0 || theNewDate.getDay() == 6);
+
+    month = theNewDate.getMonth() + 1;
+
+    if(month < 10){
+      month = "0" + month;
+    }
+    if(theNewDate.getDate() < 10){
+      fixedDate = theNewDate.getDate();
+      fixedDate = "0" + fixedDate;
+    } else {
+       fixedDate = theNewDate.getDate();
+    }
+
+    newDateStr = month + "-" + fixedDate + "-" + theNewDate.getYear();
+
+    SRRHeaderDetail.mustPickUpBy.value = newDateStr;
+    // SRRHeaderDetail.mustPickUpBy.value = newDateStr;
+  //}
+
+}
+
+
+
+  function doSearch() {
+    if(!checkDateRangeValid(srrMaintenance.dateFrom,srrMaintenance.dateThru)) {
+      alert("Thru Date may not be less than From Date");
+      srrMaintenance.dateThru.focus();
+      return;
+    }
+    srrMaintenance.submit();
+  } // doSearch
+
+</script>
+</head>
+<title>Inbound Processing Management</title>
+<body marginheight = 0 marginwidth = 0 topmargin =0 leftmargin= 0 rightmargin = 0>
+<form name="srrMaintenance" method = "POST" action = "mainScreenControl.jsp">
+
+
+
+
+
+
+  <table class="HEADER" width="100%" align="center">
+    <tr>
+      <td width="30%"><img src="images/mcx_logo.jpg"  alt="Vendor Logo"></td>
+      <td width="70%" align="right" style="background-color: WHITE" valign="top">
+        <img src="images/portal_logo.gif" alt="Portal Logo">
+      </td>
+    </tr>
+  </table>
+  <table class="HEADER, nospace" cellpadding="0" cellspacing="0" width="100%" align="center">
+    <tr valign="bottom">
+      <td width="100%" align="center" class="BOTTOM_BORDER">
+        <table width="100%" class="nospace">
+          
+          <tr valign="bottom">
+            <td align="center" nowrap style="background-color: #FFFFFF">
+
+          
+            <a href="mainScreenControl.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/inbound_tab.gif" alt="Inbound Freight" border="0">
+            </a>
+          
+          
+          
+          
+
+            <a href="locationControl.jsp?action=displayMyProfile">
+              <img style="margin-bottom: -5px" src="images/menu/myprofile_tab.gif" alt="My Profile" border="0">
+            </a>
+            <a href="reports.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/reports_tab.gif" alt="Reports" border="0">
+            </a>
+            <a href="javascript:helpWindow('vendorHelp.htm')">
+              <img style="margin-bottom: -5px" src="images/menu/help_tab.gif" alt="Help" border="0">
+            </a>
+            <a href="aboutVendorPortal.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/aboutvendorportal_tab.gif" alt="About Vendor Portal" border="0">
+            </a>
+            <a href="logout.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/logout_tab.gif" alt="Log Out" border="0">
+            </a>
+            <a href="http://landair.shipcomm.com/digital/" target="_blank">
+              <img style="margin-bottom: -5px" src="images/menu/dlxtracker_tab.gif" alt="Digital Tracker" border="0">
+            </a></td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+
+
+<table align = "center" border="0" style="margin-top: 5px">
+   <tr>
+        <td align = "left">
+        <font class = "SECTION_TITLE">Inbound Processing Management</font>
+        </td>
+   </tr>
+  <tr>
+    <td>    <hr noshade size="1" width="800"></td>
+  </tr>
+    
+      <tr>
+        <td width="800"><p><font size=2>Click
+<a href="http://landair.shipcomm.com/LogisticsPortal/Landair%20Vendor%20Portal%20Instructions%2002%20JUL%202010.doc">
+here</a> to download the Vendor Logistics Portal Instruction Manual.</p>
+
+<p><font size=2>Listed below are the most recent Shipment Routing Requests (SRRs) that you have submitted. Up to 25 will display at one time. To use the search filter enter any or all of the search criteria in the space provided and press <b>Search</b>. <br><br>
+
+If you wish to View, Edit, or Cancel an existing request in the <b>Open Status</b>, click on the SRR Number and follow the instructions. You may not modify a request that is in the <b>Closed Status</b>.<br>   <br>  
+
+If you have any questions or concerns, please do not hesitate to contact us.  To contact us via phone, call 866-404-8517.  To contact us via email <a href="mailto:mcx@landair.com">click here</a> and please reference the SRR Number if you have one.</font><br>  <br>
+
+<font color="#ff0016"><font size=3><b>Please Note:</b> To Submit your routing request you must click on the <b>CONFIRM</b> button, failure to hit confirm when you are done will result in all data being lost!!</font>
+</td>
+      </tr>
+    
+  <tr>
+    <td>    <hr noshade size="1" width="800"></td>
+  </tr>
+   <tr>
+     <td align = "center">
+     
+      <a href = "SRRControl.jsp?action=newSRRRequest"><img style="margin-top:10px; margin-bottom:10px" src="images/add_srr_button.gif" border="0"></a>
+     
+     </td>
+   </tr>
+   <tr>
+      <td>
+  <table align="center" border="0" cellpadding = 0 cellspacing = 0>
+    <tr>
+      <td>
+        <table align = "center" cellspacing = 0 border="0">
+          <tr>
+            <td class = "PAD" valign="bottom" rowspan="2"><a href="mainScreenControl.jsp"><img style="margin: -1" src="images/refresh_list_button.gif" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td class = "PAD" colspan = 2><b>Search by Date Last Updated (MM-DD-YYYY)</b></td>
+            <td width = 15>&nbsp;</td>
+          
+            <td class = "PAD"><b>or SRR:</b></td>
+            <td class="PAD" valign="bottom" rowspan="2">&nbsp;<a href="javascript:doSearch()"><img style="margin: -1" src="images/search_button.gif" border="0"></a></td>
+          </tr>
+          <tr>
+            <td class = "PAD" colspan = 2>
+              From:&nbsp;<input type = "text" maxlength="10" name = "dateFrom" size = 8 value="" onBlur = "checkdate(this)">&nbsp;&nbsp;
+              Through:&nbsp;<input type = "text" maxlength="10" name = "dateThru" size = 8 value="" onBlur = "checkdate(this)">
+            </td>
+            <td width = 15>&nbsp;</td>
+          
+            <td class = "PAD" align = "center"><input type = "text" maxlength="20" name = "searchSRR" value="" size = 7>&nbsp;&nbsp</td>
+              <input type = "hidden" name = "reportType" value="mainScreen">
+          </tr>
+        </table>
+      </td>
+    </tr>
+    
+  <tr>
+    <td>    <hr noshade size="1" width="800"></td>
+  </tr>
+    
+    <tr>
+     <td align = "center">
+     <table cellpadding = 0 cellspacing = 0 border="0" width="800">
+     <tr>
+      
+      <th>SRR#</th>
+      <th width="50">Available</th>
+           
+      <th>Recipient Id</th>
+      
+      
+        <th>Recipient Name</th>
+      
+      
+
+
+      
+      <th>1st PO</th>
+      
+      
+      <th>Weight</th>
+      <th>Cartons</th>
+      <th>Cube</th>
+      <th>Status</th>
+      
+      
+      
+      
+      
+      
+      
+      
+        <th>Carrier<br>Name</th>
+      
+      
+        <th width="50">Ship<br>Date</th>
+      
+      
+        
+          <th>BOL#</th>
+        
+      
+    </tr>
+    <tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164950">164950</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_JAPAN</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">582159</td>
+      
+      
+
+      <td class = "borderEven">39</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">FEDEX INTERNATIONAL PRIORITY SERVICE</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164950 >
+              
+                217634
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164948">164948</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_HAWAII</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">582627</td>
+      
+      
+
+      <td class = "borderOdd">21</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderOdd">05-02-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164948 >
+              
+                217258
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164947">164947</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_29PALMS</td>
+      
+      
+        <td class = "borderEven">MCX 29 PALMS WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">582624</td>
+      
+      
+
+      <td class = "borderEven">33</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164947 >
+              
+                217479
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164945">164945</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderOdd">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">582624</td>
+      
+      
+
+      <td class = "borderOdd">24</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-03-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164945 >
+              
+                217512
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164943">164943</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderEven">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">582624</td>
+      
+      
+
+      <td class = "borderEven">15</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164943 >
+              
+                217548
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164936">164936</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderOdd">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">582624</td>
+      
+      
+
+      <td class = "borderOdd">29</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-03-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164936 >
+              
+                217125
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164932">164932</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderEven">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">582624</td>
+      
+      
+
+      <td class = "borderEven">33</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164932 >
+              
+                217153
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164914">164914</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_JAPAN</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">582628</td>
+      
+      
+
+      <td class = "borderOdd">33</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">FEDEX INTERNATIONAL PRIORITY SERVICE</td>
+      
+      
+        <td class = "borderOdd">05-02-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164914 >
+              
+                217248
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164910">164910</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_BEAUFORT</td>
+      
+      
+        <td class = "borderEven">MCX PARRIS ISLAND BEAUFORT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">16</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164910 >
+              
+                217059
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164908">164908</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_HAWAII</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">32</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderOdd">05-02-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164908 >
+              
+                217259
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164906">164906</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_YUMA</td>
+      
+      
+        <td class = "borderEven">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">32</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-02-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164906 >
+              
+                216789
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164905">164905</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_BRIDGEPORT</td>
+      
+      
+        <td class = "borderOdd">MCX BRIDGEPORT</td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-02-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164905 >
+              
+                216790
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164903">164903</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_29PALMS</td>
+      
+      
+        <td class = "borderEven">MCX 29 PALMS WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">53</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">7</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164903 >
+              
+                217479
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164901">164901</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderOdd">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">38</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-03-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164901 >
+              
+                217512
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164899">164899</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderEven">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">22</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-02-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164899 >
+              
+                216830
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164898">164898</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_ALM1</td>
+      
+      
+        <td class = "borderOdd">ALM MCX MAIN STORE  </td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">11</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-02-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164898 >
+              
+                216889
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164897">164897</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderEven">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">23</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164897 >
+              
+                217125
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164895">164895</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_CLM1</td>
+      
+      
+        <td class = "borderOdd">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">12</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-03-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164895 >
+              
+                217165
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164881">164881</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderEven">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">32</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164881 >
+              
+                217125
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164879">164879</td>
+      <td class = "borderOdd">05-02-11</td>
+   
+      <td class = "borderOdd">MCX_CHERRYPOINT</td>
+      
+      
+        <td class = "borderOdd">MCX CHERRY POINT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">582052</td>
+      
+      
+
+      <td class = "borderOdd">12</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">05-03-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164879 >
+              
+                217079
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=164878">164878</td>
+      <td class = "borderEven">05-02-11</td>
+   
+      <td class = "borderEven">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderEven">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">582052</td>
+      
+      
+
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">05-03-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=164878 >
+              
+                217153
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162610">162610</td>
+      <td class = "borderOdd">04-29-11</td>
+   
+      <td class = "borderOdd">MCX_SANDIEGO</td>
+      
+      
+        <td class = "borderOdd">MCX SAN DIEGO WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">577000</td>
+      
+      
+
+      <td class = "borderOdd">122</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">12</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-29-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162610 >
+              
+                215594
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162608">162608</td>
+      <td class = "borderEven">04-27-11</td>
+   
+      <td class = "borderEven">MCX_HAWAII</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">580329</td>
+      
+      
+
+      <td class = "borderEven">5</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderEven">04-29-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162608 >
+              
+                216164
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162606">162606</td>
+      <td class = "borderOdd">04-27-11</td>
+   
+      <td class = "borderOdd">MCX_YUMA</td>
+      
+      
+        <td class = "borderOdd">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderOdd">580169</td>
+      
+      
+
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-27-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162606 >
+              
+                214793
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162604">162604</td>
+      <td class = "borderEven">04-27-11</td>
+   
+      <td class = "borderEven">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderEven">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">580169</td>
+      
+      
+
+      <td class = "borderEven">5</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-27-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162604 >
+              
+                214695
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162600">162600</td>
+      <td class = "borderOdd">04-27-11</td>
+   
+      <td class = "borderOdd">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderOdd">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">580169</td>
+      
+      
+
+      <td class = "borderOdd">8</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-27-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162600 >
+              
+                214758
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162595">162595</td>
+      <td class = "borderEven">04-27-11</td>
+   
+      <td class = "borderEven">MCX_ALM1</td>
+      
+      
+        <td class = "borderEven">ALM MCX MAIN STORE  </td>
+      
+      
+
+      
+      <td class = "borderEven">580169</td>
+      
+      
+
+      <td class = "borderEven">3</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-27-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162595 >
+              
+                214929
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162591">162591</td>
+      <td class = "borderOdd">04-27-11</td>
+   
+      <td class = "borderOdd">MCX_CLM1</td>
+      
+      
+        <td class = "borderOdd">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderOdd">580169</td>
+      
+      
+
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-27-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162591 >
+              
+                214541
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162588">162588</td>
+      <td class = "borderEven">04-27-11</td>
+   
+      <td class = "borderEven">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderEven">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">580169</td>
+      
+      
+
+      <td class = "borderEven">8</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-27-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162588 >
+              
+                214502
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=162583">162583</td>
+      <td class = "borderOdd">04-27-11</td>
+   
+      <td class = "borderOdd">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderOdd">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">580169</td>
+      
+      
+
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-27-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=162583 >
+              
+                214513
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157219">157219</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_BEAUFORT</td>
+      
+      
+        <td class = "borderEven">MCX PARRIS ISLAND BEAUFORT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">576146</td>
+      
+      
+
+      <td class = "borderEven">8</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-19-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157219 >
+              
+                211323
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157216">157216</td>
+      <td class = "borderOdd">04-19-11</td>
+   
+      <td class = "borderOdd">MCX_HAWAII</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">576146</td>
+      
+      
+
+      <td class = "borderOdd">16</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderOdd">04-20-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157216 >
+              
+                211411
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157214">157214</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_YUMA</td>
+      
+      
+        <td class = "borderEven">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderEven">576146</td>
+      
+      
+
+      <td class = "borderEven">15</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-19-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157214 >
+              
+                210556
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157213">157213</td>
+      <td class = "borderOdd">04-19-11</td>
+   
+      <td class = "borderOdd">MCX_29PALMS</td>
+      
+      
+        <td class = "borderOdd">MCX 29 PALMS WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">576146</td>
+      
+      
+
+      <td class = "borderOdd">30</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-19-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157213 >
+              
+                210480
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157210">157210</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderEven">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">576146</td>
+      
+      
+
+      <td class = "borderEven">19</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-19-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157210 >
+              
+                210500
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157209">157209</td>
+      <td class = "borderOdd">04-19-11</td>
+   
+      <td class = "borderOdd">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderOdd">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">576146</td>
+      
+      
+
+      <td class = "borderOdd">12</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">open</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-19-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157209 >
+              
+                210524
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157205">157205</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_CLM1</td>
+      
+      
+        <td class = "borderEven">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderEven">576146</td>
+      
+      
+
+      <td class = "borderEven">15</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-19-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157205 >
+              
+                211277
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157203">157203</td>
+      <td class = "borderOdd">04-19-11</td>
+   
+      <td class = "borderOdd">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderOdd">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">576146</td>
+      
+      
+
+      <td class = "borderOdd">16</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-19-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157203 >
+              
+                211298
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157200">157200</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_CHERRYPOINT</td>
+      
+      
+        <td class = "borderEven">MCX CHERRY POINT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">576146</td>
+      
+      
+
+      <td class = "borderEven">40</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-19-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157200 >
+              
+                211261
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157198">157198</td>
+      <td class = "borderOdd">04-19-11</td>
+   
+      <td class = "borderOdd">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderOdd">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">576146</td>
+      
+      
+
+      <td class = "borderOdd">15</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-19-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157198 >
+              
+                211207
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=157196">157196</td>
+      <td class = "borderEven">04-19-11</td>
+   
+      <td class = "borderEven">MCX_JAPAN</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">576246</td>
+      
+      
+
+      <td class = "borderEven">26</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">FEDEX INTERNATIONAL PRIORITY SERVICE</td>
+      
+      
+        <td class = "borderEven">04-20-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=157196 >
+              
+                211394
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154139">154139</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_BEAUFORT</td>
+      
+      
+        <td class = "borderOdd">MCX PARRIS ISLAND BEAUFORT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">17</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-12-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154139 >
+              
+                208479
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154136">154136</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_BRIDGEPORT</td>
+      
+      
+        <td class = "borderEven">MCX BRIDGEPORT</td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">6</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-12-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154136 >
+              
+                207979
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154130">154130</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderOdd">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">39</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-12-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154130 >
+              
+                208019
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154129">154129</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_ALM1</td>
+      
+      
+        <td class = "borderEven">ALM MCX MAIN STORE  </td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">10</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-12-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154129 >
+              
+                207836
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154127">154127</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_CLM1</td>
+      
+      
+        <td class = "borderOdd">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">14</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-13-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154127 >
+              
+                208497
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154126">154126</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderEven">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">23</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-13-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154126 >
+              
+                208487
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154118">154118</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_CHERRYPOINT</td>
+      
+      
+        <td class = "borderOdd">MCX CHERRY POINT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">14</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-13-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154118 >
+              
+                208481
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=154116">154116</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderEven">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">39</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-13-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=154116 >
+              
+                208492
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153502">153502</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_JAPAN</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">572794</td>
+      
+      
+
+      <td class = "borderOdd">30</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">FEDEX INTERNATIONAL PRIORITY SERVICE</td>
+      
+      
+        <td class = "borderOdd">04-12-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153502 >
+              
+                208112
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153416">153416</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_HAWAII</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">38</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderEven">04-12-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153416 >
+              
+                208140
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153409">153409</td>
+      <td class = "borderOdd">04-11-11</td>
+   
+      <td class = "borderOdd">MCX_YUMA</td>
+      
+      
+        <td class = "borderOdd">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">36</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-11-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153409 >
+              
+                207316
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153400">153400</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_29PALMS</td>
+      
+      
+        <td class = "borderEven">MCX 29 PALMS WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">572687</td>
+      
+      
+
+      <td class = "borderEven">52</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-12-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153400 >
+              
+                207079
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153383">153383</td>
+      <td class = "borderOdd">04-12-11</td>
+   
+      <td class = "borderOdd">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderOdd">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">572687</td>
+      
+      
+
+      <td class = "borderOdd">42</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">4</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-12-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153383 >
+              
+                207127
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=153374">153374</td>
+      <td class = "borderEven">04-12-11</td>
+   
+      <td class = "borderEven">MCX_TWM2</td>
+      
+      
+        <td class = "borderEven">TWM MCX CAMP WILSON MARINE MART</td>
+      
+      
+
+      
+      <td class = "borderEven">575519</td>
+      
+      
+
+      <td class = "borderEven">33</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">04-12-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=153374 >
+              
+                207632
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=150169">150169</td>
+      <td class = "borderOdd">04-08-11</td>
+   
+      <td class = "borderOdd">MCX_QUANTICO6</td>
+      
+      
+        <td class = "borderOdd">MCX MDIA BRANCH</td>
+      
+      
+
+      
+      <td class = "borderOdd">569464</td>
+      
+      
+
+      <td class = "borderOdd">24</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">04-08-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=150169 >
+              
+                204859
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=146183">146183</td>
+      <td class = "borderEven">03-29-11</td>
+   
+      <td class = "borderEven">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderEven">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">96</td>
+      <td class = "borderEven">3</td>
+      <td class = "borderEven">11</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-30-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=146183 >
+              
+                202216
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=146181">146181</td>
+      <td class = "borderOdd">03-29-11</td>
+   
+      <td class = "borderOdd">MCX_CLM1</td>
+      
+      
+        <td class = "borderOdd">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">81</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">7</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-31-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=146181 >
+              
+                202554
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=146179">146179</td>
+      <td class = "borderEven">03-29-11</td>
+   
+      <td class = "borderEven">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderEven">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">113</td>
+      <td class = "borderEven">3</td>
+      <td class = "borderEven">11</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-30-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=146179 >
+              
+                201795
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=146175">146175</td>
+      <td class = "borderOdd">03-29-11</td>
+   
+      <td class = "borderOdd">MCX_29PALMS</td>
+      
+      
+        <td class = "borderOdd">MCX 29 PALMS WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">133</td>
+      <td class = "borderOdd">3</td>
+      <td class = "borderOdd">11</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-30-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=146175 >
+              
+                202159
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=145487">145487</td>
+      <td class = "borderEven">03-28-11</td>
+   
+      <td class = "borderEven">MCX_HAWAII</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">135</td>
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">12</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderEven">03-29-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=145487 >
+              
+                201528
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=145483">145483</td>
+      <td class = "borderOdd">03-28-11</td>
+   
+      <td class = "borderOdd">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderOdd">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">25</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-31-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=145483 >
+              
+                202555
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=145480">145480</td>
+      <td class = "borderEven">03-28-11</td>
+   
+      <td class = "borderEven">MCX_ALM1</td>
+      
+      
+        <td class = "borderEven">ALM MCX MAIN STORE  </td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">19</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-28-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=145480 >
+              
+                201262
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=145478">145478</td>
+      <td class = "borderOdd">03-28-11</td>
+   
+      <td class = "borderOdd">MCX_BEAUFORT</td>
+      
+      
+        <td class = "borderOdd">MCX PARRIS ISLAND BEAUFORT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">72</td>
+      <td class = "borderOdd">3</td>
+      <td class = "borderOdd">7</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-31-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=145478 >
+              
+                202556
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=145475">145475</td>
+      <td class = "borderEven">03-28-11</td>
+   
+      <td class = "borderEven">MCX_YUMA</td>
+      
+      
+        <td class = "borderEven">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">65</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">7</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-28-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=145475 >
+              
+                201217
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=143373">143373</td>
+      <td class = "borderOdd">03-25-11</td>
+   
+      <td class = "borderOdd">MCX_LEJEUNE</td>
+      
+      
+        <td class = "borderOdd">MCX LEJEUNE WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">103</td>
+      <td class = "borderOdd">3</td>
+      <td class = "borderOdd">10</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-29-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=143373 >
+              
+                201247
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=143371">143371</td>
+      <td class = "borderEven">03-25-11</td>
+   
+      <td class = "borderEven">MCX_CHERRYPOINT</td>
+      
+      
+        <td class = "borderEven">MCX CHERRY POINT WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">567434</td>
+      
+      
+
+      <td class = "borderEven">76</td>
+      <td class = "borderEven">2</td>
+      <td class = "borderEven">12</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-29-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=143371 >
+              
+                201239
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=143367">143367</td>
+      <td class = "borderOdd">03-25-11</td>
+   
+      <td class = "borderOdd">MCX_QUANTICO2</td>
+      
+      
+        <td class = "borderOdd">MCX QUANTICO WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">567434</td>
+      
+      
+
+      <td class = "borderOdd">115</td>
+      <td class = "borderOdd">3</td>
+      <td class = "borderOdd">12</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-29-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=143367 >
+              
+                201224
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=143363">143363</td>
+      <td class = "borderEven">03-30-11</td>
+   
+      <td class = "borderEven">MCX_JAPAN</td>
+      
+      
+        <td class = "borderEven">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderEven">567552</td>
+      
+      
+
+      <td class = "borderEven">133</td>
+      <td class = "borderEven">3</td>
+      <td class = "borderEven">12</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">FEDEX INTERNATIONAL PRIORITY SERVICE</td>
+      
+      
+        <td class = "borderEven">03-31-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=143363 >
+              
+                202441
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140762">140762</td>
+      <td class = "borderOdd">03-21-11</td>
+   
+      <td class = "borderOdd">MCX_HAWAII</td>
+      
+      
+        <td class = "borderOdd">LANDAIR WILL PROVIDE</td>
+      
+      
+
+      
+      <td class = "borderOdd">563154</td>
+      
+      
+
+      <td class = "borderOdd">8</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">2</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS SECOND DAY AIR</td>
+      
+      
+        <td class = "borderOdd">03-21-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140762 >
+              
+                198389
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140761">140761</td>
+      <td class = "borderEven">03-21-11</td>
+   
+      <td class = "borderEven">MCX_YUMA</td>
+      
+      
+        <td class = "borderEven">MCX YUMA SERVICE STATION</td>
+      
+      
+
+      
+      <td class = "borderEven">563022</td>
+      
+      
+
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-22-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140761 >
+              
+                198864
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140759">140759</td>
+      <td class = "borderOdd">03-21-11</td>
+   
+      <td class = "borderOdd">MCX_MIRAMAR1</td>
+      
+      
+        <td class = "borderOdd">MCX MIRAMAR WAREHOUSE</td>
+      
+      
+
+      
+      <td class = "borderOdd">563022</td>
+      
+      
+
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-21-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140759 >
+              
+                197953
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140757">140757</td>
+      <td class = "borderEven">03-21-11</td>
+   
+      <td class = "borderEven">MCX_PENDLETON</td>
+      
+      
+        <td class = "borderEven">MCX PENDLETON WAREHOUSE </td>
+      
+      
+
+      
+      <td class = "borderEven">563022</td>
+      
+      
+
+      <td class = "borderEven">5</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-21-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140757 >
+              
+                197981
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderOdd'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140756">140756</td>
+      <td class = "borderOdd">03-21-11</td>
+   
+      <td class = "borderOdd">MCX_ALM1</td>
+      
+      
+        <td class = "borderOdd">ALM MCX MAIN STORE  </td>
+      
+      
+
+      
+      <td class = "borderOdd">563022</td>
+      
+      
+
+      <td class = "borderOdd">5</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">1</td>
+      <td class = "borderOdd">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderOdd">UPS GROUND</td>
+      
+      
+        <td class = "borderOdd">03-21-11</td>
+      
+      
+        
+          <td class = "borderOdd">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140756 >
+              
+                197800
+              
+            </a></td>
+        
+      
+      </tr>
+<tr>
+<td class = 'borderEven'><a href="SRRControl.jsp?action=displaySRR&srrDocId=140755">140755</td>
+      <td class = "borderEven">03-21-11</td>
+   
+      <td class = "borderEven">MCX_CLM1</td>
+      
+      
+        <td class = "borderEven">CLM MCX NEW RIVER MAIN STORE </td>
+      
+      
+
+      
+      <td class = "borderEven">563022</td>
+      
+      
+
+      <td class = "borderEven">4</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">1</td>
+      <td class = "borderEven">routed</td>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <td class = "borderEven">UPS GROUND</td>
+      
+      
+        <td class = "borderEven">03-22-11</td>
+      
+      
+        
+          <td class = "borderEven">
+            <a href=billOfLadingControl.jsp?action=display&srrDocId=140755 >
+              
+                198528
+              
+            </a></td>
+        
+      
+      </tr>
+
+          </table>
+          </td>
+  </table>
+      </td>
+   </tr>
+</table>
+
+
+
+
+
+    <!-- START TWO LOGO DISPLAY -->
+
+    <table width="100%"><tr>
+      <td height=10>&nbsp;</td>
+    </tr></table>
+
+    <table class="FOOTER" width="100%" align="center">
+      <tr><td class="TOP_BORDER">
+      <table width="100%">
+        <tr>
+          <td width="33%" align="center">
+            <img src="images/landair_logo.gif" alt="Footer Logo">
+          </td>
+          <td align="center">
+            <div style="font-size: 10px">&#169 2002-2010 Shippers Commonwealth, LLC<br> All Rights Reserved</div>
+          </td>
+          <td width="33%" align="center" valign="bottom">
+            <a href="http://www.shipperscommonwealth.com">
+              <img src="images/shippers_logo.jpg" border="0" alt="ShipComm Logo">
+            </a><br>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    </table>
+
+    <!-- END TWO LOGO DISPLAY -->
+
+
+
+
+</form>
+
+</body>
+</html>

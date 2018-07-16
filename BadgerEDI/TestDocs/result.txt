@@ -1,0 +1,120 @@
+JoCarrierCode	Name
+	No Carrier Selected
+000	To Be Determined
+AAA	AAA Cooper
+AAFS	A&D Freight Services
+ABF	ABF
+AIRB	AirBorne
+AIT	Worldwide Logistics
+ALLE	Allens
+AMFW	American Freightway
+AMT	Atlanta Motor Freight
+AOL	AOL  Freight Solutions
+AVTT	Averitt
+BADG	Badger Sportswear Trucking
+BENT	Benton
+BEST	Bestway Express
+BILL	Billings
+BIRD	Bird Dog Logistics
+BRNG	Brenager
+BTAX	BTX Air Express
+BTRN	Beverage Transport
+BURG	Burgess
+CAMI	Carolina Mills
+CENT	Central
+CHRI	Christy
+CHRO	C H Robinson
+CLIP	Clipper
+CNTR	Central Transportation
+COWN	Cowen Truck Line
+CPU	Customer Pickup
+CRCO	Cross Country
+CSEX	Conway Southern Express
+DHL	DHL Worldwide Express
+DHX	DHX
+DIX	Dixie
+DIXI	Dixie
+DOUG	Douglas and Sons Trucking
+ELEX	Elite Express
+EPIC	Epic Freight
+ESTE	Estes Express Lines
+FEDX	Fed Ex Ground
+FEX2	FedEx-2-Day
+FEX3	FedEx-Express Saver
+FEXF	Fed Ex Freight
+FEXI	Fed Ex International Economy
+FEXN	Fed Ex National LTL
+FEXO	FedEx-Priority Overnight
+FEXP	FEDEX INTERNATIONAL PRIORITY SERVICE
+FREE	Freedom
+HABR	Hardy Brothers
+HERC	Hercules
+HIBK	Hirschback
+HOLL	Holland
+HOLR	Holler Produce
+HW	H & W Trucking
+JBST	JBS Transportation
+JEVC	Jevic
+JIMR	Jimmy Rakes
+LEDX	Leader Express
+LIND	Linden Air Freight
+LNDA	Land Air
+LOHO	Long Horn
+MABE	Mabe Trucking
+MATS	Matson/Washington
+MILA	MILAN EXPRESS
+NATX	Nations Express
+NYCE	New York Carolina Express Lines
+OLDM	Old Dominion Freight Lines
+OVNT	Overnight Freight Lines
+PILT	Pilot Air Freight
+PRES	Prestige Logistics
+RAMT	RAM Trucking
+RBT	Robert Brinegar Trucking
+RIJN	Rijon
+RIVR	Riverside Logistics
+RJW	RJW Trucking
+RLC	R&L Carriers
+ROWY	Roadway
+ROYL	Royal Transport
+RRUN	Roadrunner
+SAIA	Saia
+SALO	Salem Logistics
+SCHN	Schneider
+SEAH	Seahorse
+SOEA	Southeastern
+SRVC	Service Transport
+TBRR	T Berry
+TERM	Terminal
+TST	TST Trucking
+UNIT	United/Transportation Systems Inc.
+UPS	United Parcel Service
+UPSA	UPS-GROUND
+UPSB	UPS-NEXT DAY AIR
+UPSC	UPS-NEXT DAY AIR SAVER
+UPSD	UPS-NEXT DAY AIR AM
+UPSE	UPS-SATURDAY AM
+UPSF	UPS Motor Freight
+UPSG	UPS-2ND DAY AIR
+UPSH	UPS-2ND DAY AIR AM
+UPSI	UPS-SATURDAY 2nd Day
+UPSJ	UPS 3 DAY SELECT
+UPSK	UPS 3-DAY SAME AS GROUND
+UPSL	UPS Worldwide Express
+UPSM	UPS Worldwide Expedited
+UPSN	UPS Worldwide Express Plus
+UPSO	UPS LTL Express
+UPSP	UPS GROUND-PRIORTY
+UPSQ	UPS Standard
+UPSR	UPS LTL Standard
+UPSS	UPS Worldwide Saver
+USFH	USF Holland
+USFR	USF Reddaway
+USPS	US Postal Service
+WAKI	Watkins
+WARD	Ward
+WARR	Warren Trucking
+WB	W&B
+WEST	Western Transportation
+WISO	Wilson
+YELO	Yellow Freight

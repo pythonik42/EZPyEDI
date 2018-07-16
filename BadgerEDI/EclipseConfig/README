@@ -1,0 +1,3 @@
+All of these files originally lived at the root of BadgerEDI eclipse Project folder.
+They contain working metadata that eclipse uses to maintain its state (fonts/colors/win positions), launch configurations, other devt IDE metadata used by eclipse.
+They are stored here for reference in case you need to setup a new eclipse devt instance, these files will help you setup paths, etc.

@@ -1,0 +1,10 @@
+#Wed Jan 04 17:18:06 EST 2012
+eclipse.preferences.version=1
+encoding//Lib/encodings/punycode.py=iso-8859-1
+encoding//Lib/encodings/string_escape.py=iso-8859-1
+encoding//Lib/lib-tk/Tix.py=latin1
+encoding//Lib/sqlite3/dbapi2.py=ISO-8859-1
+encoding//Lib/sqlite3/test/transactions.py=ISO-8859-1
+encoding//TestDocs/result.txt=Cp1252
+encoding//src/site-packages/bots/usersys/routescripts/GenJomarInXML.py=US-ASCII
+encoding//src/site-packages/kid/test/test_codewriter.py=utf-8

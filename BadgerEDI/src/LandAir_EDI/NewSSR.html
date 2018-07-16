@@ -1,0 +1,1062 @@
+
+
+
+
+
+
+
+<html>
+<head>
+
+<style>
+  body {
+    background-color: #FFFFFF;
+}
+
+
+table.locationSearch, table.locationSearchResults {
+  border-collapse: collapse;
+    padding: 0px;
+    margin:  0px;
+    width: 100%;
+}
+
+table.locationSearch td {
+    padding: 1px;
+    margin:  0px;
+    border: 0px;
+    font: icon;
+    text-align: center;
+}
+
+#locationSearchMsg {
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0px;
+}
+
+table.locationSearchResults td {
+    padding: 2px;
+    margin:  0px;
+    border: 1px solid black;
+    font: icon;
+    text-align: center;
+}
+
+table.locationSearch td input{
+    padding: 1px;
+    margin:  0px 1px;
+    font: icon;
+}
+
+table.locationSearch th {
+  padding: 0px 2px;
+    font: icon;
+}
+
+td {
+    font-family: arial;
+    font-size: 9pt;
+    margin: 0;
+    padding: 2;
+}
+
+table {
+  border-collapse: collapse;
+    padding: 0px;
+    margin:  0px;
+    font: icon;
+}
+
+table.HEADER {
+    background-color: white;
+    border: 0;
+}
+
+table.FOOTER {}
+
+td.BOTTOM_BORDER {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-bottom: 1 solid black;
+}
+
+hr {
+  border: 0;
+  border-top: 1 solid #000;
+  margin: 0 auto;
+  height: 1px;
+}
+
+th {
+  margin: 0;
+  padding: 2;
+}
+
+td.borderEven, td.borderOdd {
+    font: icon;
+    background-color: #999999;
+    border: 1 solid black;
+    text-align: center;
+}
+
+td.borderOdd {
+    background-color: #CCCCCC;
+}
+
+
+td.PAD {
+    font-family: arial;
+    font-size: 9pt;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 2px
+}
+font.LOGIN_HEADER {
+    font-size: 17pt;
+    color: white;
+    color: #002c9e;
+    font-weight: 800;
+}
+font.LOGIN_TITLE {
+    font-size: 14pt;
+    color: white;
+  color: #002c9e;
+    font-weight: 800;
+}
+font.SECTION_TITLE {
+    font-size: 14pt;
+    color: white;
+  color: #002c9e;
+    font-weight: 400;
+}
+font.ERROR {
+    color: RED;
+  color: #ff0016;
+    font-weight: 800
+}
+a:link {
+    color: #333366;
+    font-weight: 800;
+}
+a:visited {
+    color: #333366;
+    font-weight: 800;
+}
+.nospace {
+    padding: 0px;
+    margin:  0px;
+    border:  0px;
+    border-collapse: collapse;
+}
+
+</style>
+
+<script>
+function shippingAuthorities() {
+  window.open("vendorList.jsp?locationId=BADGE28625","vendorList","width=300,height=275,scrollbars=yes");
+}
+
+// creates a javascript date object from a date with mm-dd-yyyy format.
+function parseDateString(strIn) {
+    arrayDate = strIn.split("-");
+    return new Date(arrayDate[2],arrayDate[0]-1,arrayDate[1]);
+}
+
+// creates a javascript date object from a date with mm-dd-yy format.
+function parseDateStringYY(strIn) {
+    arrayDate = strIn.split("-");
+    return new Date('20' + arrayDate[2],arrayDate[0]-1,arrayDate[1]);
+}
+
+
+function checkDateRangeValid(fromDate, thruDate){
+  if(fromDate.value.length == 0 || thruDate.value.length == 0) {
+    return true;
+  } // if
+  fromArrayDate = fromDate.value.split("-");
+  thruArrayDate = thruDate.value.split("-");
+  if(new Date(fromArrayDate[2],fromArrayDate[0]-1,fromArrayDate[1]) > new Date(thruArrayDate[2],thruArrayDate[0]-1,thruArrayDate[1]) ){
+    return false;
+  } // if
+  return true;
+} // checkDateRangeValid
+
+function isValidNumeric(s) {
+
+  if(s != null){
+     var validChars = new Array("1","2","3","4","5","6","7","8","9","0",".",",");
+     for (i=0; i < s.length; i++) {
+      var c = s.charAt(i);
+      var found = "false";
+      for (j=0; j < validChars.length; j++) {
+      if (c == validChars[j]) {
+        found = "true";
+       }
+      }
+      if (found == "false") return false;
+     }
+     return true;
+  }
+}
+
+
+
+function checkdate(objName) {
+  var datefield = objName;
+  if (chkdate(objName) == false) {
+  datefield.select();
+  alert("That date is invalid.  Date Format is MM-DD-YYYY");
+  datefield.focus();
+  return false;
+  }
+  else {
+  return true;
+     }
+}
+
+function chkdate(objName) {
+var strDatestyle = "US"; //United States date style
+//var strDatestyle = "EU";  //European date style
+var strDate;
+var strDateArray;
+var strDay;
+var strMonth;
+var strYear;
+var intday;
+var intMonth;
+var intYear;
+var booFound = false;
+var datefield = objName;
+var strSeparatorArray = new Array("-"," ","/",".");
+var intElementNr;
+var err = 0;
+var strMonthArray = new Array(12);
+strMonthArray[0] = "Jan";
+strMonthArray[1] = "Feb";
+strMonthArray[2] = "Mar";
+strMonthArray[3] = "Apr";
+strMonthArray[4] = "May";
+strMonthArray[5] = "Jun";
+strMonthArray[6] = "Jul";
+strMonthArray[7] = "Aug";
+strMonthArray[8] = "Sep";
+strMonthArray[9] = "Oct";
+strMonthArray[10] = "Nov";
+strMonthArray[11] = "Dec";
+strDate = datefield.value;
+if (strDate.length < 1) {
+return true;
+}
+for (intElementNr = 0; intElementNr < strSeparatorArray.length; intElementNr++) {
+if (strDate.indexOf(strSeparatorArray[intElementNr]) != -1) {
+strDateArray = strDate.split(strSeparatorArray[intElementNr]);
+if (strDateArray.length != 3) {
+err = 1;
+return false;
+}
+else {
+strDay = strDateArray[0];
+strMonth = strDateArray[1];
+strYear = strDateArray[2];
+}
+booFound = true;
+   }
+}
+if (booFound == false) {
+if (strDate.length>5) {
+strDay = strDate.substr(0, 2);
+strMonth = strDate.substr(2, 2);
+strYear = strDate.substr(4);
+   }
+else return false;
+}
+if (strYear.length == 2) {
+strYear = '20' + strYear;
+}
+// US style
+if (strDatestyle == "US") {
+strTemp = strDay;
+strDay = strMonth;
+strMonth = strTemp;
+}
+intday = parseInt(strDay, 10);
+if (isNaN(intday)) {
+err = 2;
+return false;
+}
+intMonth = parseInt(strMonth, 10);
+if (isNaN(intMonth)) {
+for (i = 0;i<12;i++) {
+if (strMonth.toUpperCase() == strMonthArray[i].toUpperCase()) {
+intMonth = i+1;
+strMonth = strMonthArray[i];
+i = 12;
+   }
+}
+if (isNaN(intMonth)) {
+err = 3;
+return false;
+   }
+}
+intYear = parseInt(strYear, 10);
+if (isNaN(intYear)) {
+err = 4;
+return false;
+}
+if (intMonth>12 || intMonth<1) {
+err = 5;
+return false;
+}
+if ((intMonth == 1 || intMonth == 3 || intMonth == 5 || intMonth == 7 || intMonth == 8 || intMonth == 10 || intMonth == 12) && (intday > 31 || intday < 1)) {
+err = 6;
+return false;
+}
+if ((intMonth == 4 || intMonth == 6 || intMonth == 9 || intMonth == 11) && (intday > 30 || intday < 1)) {
+err = 7;
+return false;
+}
+if (intMonth == 2) {
+if (intday < 1) {
+err = 8;
+return false;
+}
+if (LeapYear(intYear) == true) {
+if (intday > 29) {
+err = 9;
+return false;
+}
+}
+else {
+if (intday > 28) {
+err = 10;
+return false;
+}
+}
+}
+if (strDatestyle == "US") {
+//datefield.value = strMonthArray[intMonth-1] + " " + intday+" " + strYear;
+
+  if(intMonth < 10){
+    strMonth = "0" + intMonth;
+  }
+  if(intday < 10){
+    strDay = "0" + intday;
+  }
+  //alert(intYear);
+  if(intYear < 100){
+  //alert("make 20 +");
+    strYear = "20" + intYear;
+  }
+  if(intYear < 1000){
+  //alert("make 2 +");
+    strYear = "2" + intYear;
+  }
+
+  datefield.value = strMonth + "-" + strDay + "-" + strYear;
+}
+else {
+datefield.value = intday + " " + strMonthArray[intMonth-1] + " " + strYear;
+}
+return true;
+}
+function LeapYear(intYear) {
+if (intYear % 100 == 0) {
+if (intYear % 400 == 0) { return true; }
+}
+else {
+if ((intYear % 4) == 0) { return true; }
+}
+return false;
+}
+
+function doDateCheck(from, to) {
+  if (Date.parse(from.value) <= Date.parse(to.value)) {
+    alert("The dates are valid.");
+  }
+  else {
+    if (from.value == "" || to.value == "")
+      alert("Both dates must be entered.");
+    else
+    alert("To date must occur after the from date.");
+   }
+}
+
+function doDateMagic(formInput,addValue,startDate,endDate){
+  //alert("inside days to add:");
+  //alert(addValue);
+  var strDate = "";
+  var fixedDate = null;
+  //alert("StartDate:" + startDate);
+  //alert("EndDate:" + endDate);
+
+  //if(checkdate(formInput)){
+
+    strDate = formInput.value;
+    arrayDate = strDate.split("-");
+
+    month = arrayDate[0];
+    day   = arrayDate[1];
+    year  = arrayDate[2];
+
+    theDate = new Date(year,month-1,day);
+    //alert("ok..adding the days...continue adding 1 if Saturday or Sunday is the initial result");
+    do {
+      //alert(addValue);
+      milli = Date.parse(theDate) + (addValue * 24 * 60 * 60 * 1000);
+      theNewDate = new Date(milli);
+      //alert(theNewDate);
+      //alert(theNewDate.toString());
+      //alert(theNewDate.getDay());
+      addValue++;
+    } while(theNewDate.getDay() == 0 || theNewDate.getDay() == 6);
+
+    month = theNewDate.getMonth() + 1;
+
+    if(month < 10){
+      month = "0" + month;
+    }
+    if(theNewDate.getDate() < 10){
+      fixedDate = theNewDate.getDate();
+      fixedDate = "0" + fixedDate;
+    } else {
+       fixedDate = theNewDate.getDate();
+    }
+
+    newDateStr = month + "-" + fixedDate + "-" + theNewDate.getYear();
+
+    SRRHeaderDetail.mustPickUpBy.value = newDateStr;
+    // SRRHeaderDetail.mustPickUpBy.value = newDateStr;
+  //}
+
+}
+
+
+
+function digitalTracker(windowName){
+  window.open(windowName,"digitalTracker");
+}
+
+function helpWindow(windowName){
+//  window.open(windowName,"help","scrollbars=yes");
+  window.open(windowName,"help");
+}
+
+
+function doContinue(){
+  //alert("continue");
+  if(checkData()) {
+    document.srrLineDetail.action="SRRControl.jsp?action=commitLineDetails"
+    document.srrLineDetail.submit();
+  }
+}
+
+function doAddLineItems(){
+  document.srrLineDetail.action="SRRControl.jsp?action=addMoreLineItems";
+  document.srrLineDetail.submit();
+}
+
+function doCancel(){
+  document.srrLineDetail.action="SRRControl.jsp?action=cancel"
+  document.srrLineDetail.submit();
+} // doCancel
+
+function checkData() {
+
+  var done = false;
+  var next = 0;
+  var linetotal = 0;
+  do {
+        var fieldname = document.srrLineDetail[next];
+        //alert(fieldname.name);
+        if(fieldname == null || fieldname == "" || fieldname.length == 0) {
+          done = true;
+          break;
+        }
+        //alert("1");
+        var t1 = fieldname.name;
+        var t2 = fieldname.value;
+        //alert(t1);
+        //alert(t2);
+        //alert("2");
+        var total = 0;
+        var lineNumber = null
+  
+      if(t1.indexOf("poNumber") >= 0) {
+
+        
+
+        if(!validatePOData(fieldname)) {
+          return false;
+        }
+      }
+   
+
+        //alert("3");
+   if(!checkRequiredInputFields(fieldname)) {
+    return false;
+   }
+
+        //alert("4");
+   if(t1.indexOf("freightClass") >= 0) {
+    if(!isValidNumeric(t2) ){
+      //alert("freight class must be a numeric entry field");
+      fieldname.focus();
+      return false;
+    }
+  }
+
+    next++;
+  } while (!done);
+  return true;
+}
+
+function checkForDuplicatePO(poNumber){
+  var done = false;
+  var next = 0;
+  do {
+        var fieldname = document.srrLineDetail[next];
+        if(fieldname == null || fieldname == "" || fieldname.length == 0) {
+          done = true;
+    break;
+  }
+  var t1 = fieldname.name;
+  var t2 = fieldname.value;
+  if(t1.indexOf("poNumber") >= 0) {
+    if(t1 != poNumber.name) {
+      if(t2.length > 0 && t2 == poNumber.value ){
+        alert("A Duplicate PO Entry was found.  Duplicate POs are not allowed.");
+        fieldname.focus();
+        return false;
+      } // the values match
+    } // this is not the same po
+  } // this is a po field
+    next++;
+  } while (!done);
+  return true;
+}
+
+
+// Checks user entered values (when specified) for valid values
+// This function does not enforce required fields.  For that
+// code see the function checkRequiredInputFields.
+function validatePOData(poNumber){
+
+  var t1 = poNumber.name;
+  if(t1.indexOf("poNumber") < 0){
+    return true;
+  }
+  var t2 = poNumber.value;
+  lineNumber = t1.substring(9,t1.length);
+  if(t2 == 0 || t2.length <= 0) {
+    return true;
+  }
+
+  var cartonFieldName = "carton_" + lineNumber;
+  var carton = getField(cartonFieldName);
+  var cartonValue = carton.value;
+
+  if(cartonValue.length >= 0 && !isValidNumeric(cartonValue)) {
+    alert("When specified, Cartons must be a valid numeric integer");
+    carton.focus();
+    return false;
+  }
+
+  if(cartonValue > 9999 ) {
+    alert("Number of cartons may not exceed 9999.");
+    carton.focus();
+    return false;
+  }
+
+  var weightFieldName = "weight_" + lineNumber;
+  var weight = getField(weightFieldName);
+  var weightValue = weight.value;
+  if(weightValue.length >= 0 && !isValidNumeric(weightValue)) {
+    alert("When specified, Weight must be a valid numeric integer");
+    weight.focus();
+    return false;
+  }
+
+  var cubeFieldName = "cube_" + lineNumber;
+  var cube = getField(cubeFieldName);
+  var cubeValue = cube.value;
+  if(cubeValue.length >= 0 && !isValidNumeric(cubeValue)) {
+    alert("When specified, Cube must be a valid numeric integer");
+    cube.focus();
+    return false;
+  }
+
+  if( (weightValue == 0 && cubeValue != 0) || (weightValue != 0 && cubeValue == 0) ) {
+    alert("When specified, both Weight and Cube are required fields.");
+    poNumber.focus();
+    return false;
+  }
+
+  var freightClassFieldName = "freightClass_" + lineNumber;
+  var fc = getField(freightClassFieldName);
+  var fcValue = fc.value;
+  if(fcValue.length == 0 || !isValidNumeric(fcValue) || fcValue == 0) {
+    alert("Freight Class must be a valid numeric value.");
+    fc.focus();
+    return false;
+  }
+
+  return true;
+}
+
+
+// This function enforces line item required fields as configured in 
+// the Admin Portal 
+function checkRequiredInputFields(poNumber){
+
+  var t1 = poNumber.name;
+  if(t1.indexOf("poNumber") < 0){
+    return true;
+  }
+  var t2 = poNumber.value;
+  if(t2 == null){
+    return true;
+  }
+  lineNumber = t1.substring(9,t1.length);
+  if(t2 == null || t2 == 0 || t2.length <= 0) {
+    return true;
+  }
+
+  
+  var cartonFieldName = "carton_" + lineNumber;
+  var carton = getField(cartonFieldName);
+  var cartonValue = carton.value;
+  if(cartonValue <= 0 || cartonValue.length <=0 || !isValidNumeric(carton)) {
+    alert("Cartons is a required numeric field.");
+    carton.focus();
+    return false;
+  } // if
+
+
+
+  var weightFieldName = "weight_" + lineNumber;
+  var weight = getField(weightFieldName);
+  var weightValue = weight.value;
+  if(weightValue == 0 || weightValue.length >= 0 && !isValidNumeric(weightValue)) {
+    alert("Weight  is a required numeric field.");
+    weight.focus();
+    return false;
+  } // if
+
+
+
+  var cubeFieldName = "cube_" + lineNumber;
+  var cube = getField(cubeFieldName);
+  var cubeValue = cube.value;
+  if(cubeValue == 0 || cubeValue.length >= 0 && !isValidNumeric(cubeValue)) {
+    alert("Cube is a required numeric field.");
+    cube.focus();
+    return false;
+  } // if
+
+
+
+  var freightClassFieldName = "freightClass_" + lineNumber;
+  var freightClass = getField(freightClassFieldName);
+  var freightClassValue = freightClass.value;
+  if(freightClassValue == null || freightClassValue.length <=0) {
+    alert("Freight Class is a required field.");
+    freightClass.focus();
+    return false;
+  } // if
+
+
+
+  var productTypeFieldName = "productType_" + lineNumber;
+  var productType = getField(productTypeFieldName);
+  var productTypeValue = productType.value;
+  if(productTypeValue == null || productTypeValue.length <=0) {
+    alert("Product Description is a required field.");
+    productType.focus();
+    return false;
+  } // if
+
+
+
+
+
+
+
+  var reference2FieldName = "reference2_" + lineNumber;
+  var reference2 = getField(reference2FieldName);
+  var reference2Value = reference2.value;
+  if(reference2Value == null || reference2Value.length <=0) {
+    alert("Site # is a required field.");
+    reference2.focus();
+    return false;
+  } // if
+
+
+
+
+
+  return true;
+  }
+
+function getField(searchvalue){
+  //alert("getting field..");
+  //alert(searchvalue);
+  var done = false;
+  var next = 0;
+  var linetotal = 0;
+  do {
+    var fieldname = document.srrLineDetail[next];
+  if(fieldname == null || fieldname == "" || fieldname.length == 0) {
+          done = true;
+    break;
+  }
+  var t1 = fieldname.name;
+  var t2 = fieldname.value;
+  var total = 0;
+
+  if(t1.indexOf(searchvalue) >= 0) {
+     return fieldname;
+  }
+    next++;
+  } while (!done);
+
+} // if
+
+      var masterList;
+      var nameSearchWindow;
+      var inputSelectBox;
+
+      function createSearchWindow(selectBox){
+        inputSelectBox = selectBox;
+        initMasterList(selectBox);
+        nameSearchWindow = open("","nameSearch","width=400,height=450");
+        nameSearchWindow.document.open();
+        var html = "\n<html>"+
+        "\n<head>"+
+        "\n<style>"+
+        "\nbody                 {background-color: #CCCC99;}"+
+        "\n</style>"+
+        "\n</head>"+
+        "\n<body>"+
+        "\n<table>"+
+        "\n<tr><td width='350'><p><p>To use the search enter text in the Filter box and press Filter.  When no data appears in the text box no data was found.  You may either enter new search criteria or enter a blank to reset the search.</td></tr>"+
+        "\n<tr><td>"+
+        "\n<form name='searchForm'>"+
+        "\n Filter Text :<input type='text' name='filterText'/> "+
+        "\n<input type='button' name='filterSearchButton' value='Filter' onClick=\"window.opener.doSearch(searchForm.searchSelectBox,searchForm.filterText)\"/><br><br>"+
+        "\n<select size='10' name='searchSelectBox'>";
+        html += buildSearchOptions();
+        html += "</select><br><br><input type='button' name='selected' value='Select' onClick=\"window.opener.setSelectedIndex(searchForm.searchSelectBox)\"/></form></body></html>";
+        html += "\n</td></tr></table>";
+        nameSearchWindow.document.writeln(html);
+        nameSearchWindow.document.close();
+      }
+
+      function buildSearchOptions(){
+        var optionHtml;
+        for(var a=0;a<masterList.length;a++){
+            optionHtml += "\n<option value='" + a + "'>" + masterList[a].text + "</option>";
+        } // for
+        return optionHtml;
+      }
+
+      function initMasterList(selectBox){
+        if(masterList != null && masterList.length > 0){
+          return;
+        }
+        masterList = new Array(selectBox.length);
+        for(var i=0;i< selectBox.length;i++){
+          masterList[i] = selectBox.options[i];
+        }
+      }
+
+      function setSelectedIndex(selectionBox){
+        //alert("setting selected index");
+        //alert(selectionBox.selectedIndex);
+        if(selectionBox.selectedIndex >= 0){
+          //alert("gt zero do the set");
+          //alert(selectionBox[selectionBox.selectedIndex].value);
+          inputSelectBox.selectedIndex = selectionBox[selectionBox.selectedIndex].value;
+        }
+        nameSearchWindow.close();
+      }
+
+      function doSearch(searchSelectBox,searchselectText){
+        while (searchSelectBox.options.length > 0) {
+          searchSelectBox.options[0] = null;
+        }
+
+        for(var a=0;a<masterList.length;a++){
+          if(masterList[a].text.toLowerCase().search(searchselectText.value.toLowerCase()) >= 0){
+            var newElem = nameSearchWindow.document.createElement("OPTION");
+            newElem.text = masterList[a].text;
+            //newElem.value = masterList[a].value;
+            newElem.value = a;
+            searchSelectBox.options.add(newElem,searchSelectBox.options.length);
+          } // if
+        } // for
+
+      } // doSearch function
+
+
+
+  </script>
+
+<title>Inbound Shipment Routing Request - Line Details</title>
+</head>
+<body marginheight = 0 marginwidth = 0 topmargin =0 leftmargin= 0 rightmargin = 0>
+<form method="post" name="srrLineDetail" action="SRRControl.jsp?action=commitLineDetails">
+
+
+
+
+
+
+  <table class="HEADER" width="100%" align="center">
+    <tr>
+      <td width="30%"><img src="images/mcx_logo.jpg"  alt="Vendor Logo"></td>
+      <td width="70%" align="right" style="background-color: WHITE" valign="top">
+        <img src="images/portal_logo.gif" alt="Portal Logo">
+      </td>
+    </tr>
+  </table>
+  <table class="HEADER, nospace" cellpadding="0" cellspacing="0" width="100%" align="center">
+    <tr valign="bottom">
+      <td width="100%" align="center" class="BOTTOM_BORDER">
+        <table width="100%" class="nospace">
+          
+          <tr valign="bottom">
+            <td align="center" nowrap style="background-color: #FFFFFF">
+
+          
+            <a href="mainScreenControl.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/inbound_tab.gif" alt="Inbound Freight" border="0">
+            </a>
+          
+          
+          
+          
+
+            <a href="locationControl.jsp?action=displayMyProfile">
+              <img style="margin-bottom: -5px" src="images/menu/myprofile_tab.gif" alt="My Profile" border="0">
+            </a>
+            <a href="reports.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/reports_tab.gif" alt="Reports" border="0">
+            </a>
+            <a href="javascript:helpWindow('vendorHelp.htm')">
+              <img style="margin-bottom: -5px" src="images/menu/help_tab.gif" alt="Help" border="0">
+            </a>
+            <a href="aboutVendorPortal.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/aboutvendorportal_tab.gif" alt="About Vendor Portal" border="0">
+            </a>
+            <a href="logout.jsp">
+              <img style="margin-bottom: -5px" src="images/menu/logout_tab.gif" alt="Log Out" border="0">
+            </a>
+            <a href="http://landair.shipcomm.com/digital/" target="_blank">
+              <img style="margin-bottom: -5px" src="images/menu/dlxtracker_tab.gif" alt="Digital Tracker" border="0">
+            </a></td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table align = "center" border = 0 style="margin-top: 5px">
+    <tr>
+      <td colspan = 2>
+        <font class = "SECTION_TITLE">Inbound Shipment Routing Request - Line Details</font>
+        <hr noshade size="1" width="700">
+      </td>
+    </tr>
+    <tr><td colspan='2'> <!-- SRR identifier table -->
+      <table border='0' width="700">
+        <tr>
+          <td><div align="center"><b>Location ID</b></div></td>
+          <td><div align="center"><b>Location Ship Site Name</b></div></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><div align="center">BADGE28625</div></td>
+          <td><div align="center">BADGER SPORTSWEAR</div></td>
+          <td></td>
+        </tr>
+      </table> <!-- /SRR identifier table -->
+    </td></tr>
+    <tr>
+      <td colspan = 2>
+
+      
+        <table cellpadding = 0 cellspacing = 0 border="1">
+          <tr>
+            <td colspan = 10>
+                <div align = "right">
+                  <a href = "javascript:shippingAuthorities()">Shipping Authorities</a>
+                </div>
+
+            </td>
+          </tr>
+        </table>
+      
+
+      <hr noshade size="1" width="700">
+
+        <table cellpadding = 0 cellspacing = 0 border="0" align="center">
+          <tr>
+          <td><center><b>Valid MCX PO #</b></center></td>
+<td><center><b>Cartons</b></center></td>
+<td><center><b>Weight</b></center></td>
+<td><center><b>Cube</b></center></td>
+<td><center><b>Freight Class</b></center></td>
+<td><center><b>Product Description</b></center></td>
+<td><center><b>Site #</b></center></td>
+
+          </tr>
+          <tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_0' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_0' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_0' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_0' value=''></td>
+<td align='center'>
+ <select name='freightClass_0'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_0' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_0' value=''></td>
+</tr>
+<tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_1' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_1' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_1' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_1' value=''></td>
+<td align='center'>
+ <select name='freightClass_1'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_1' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_1' value=''></td>
+</tr>
+<tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_2' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_2' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_2' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_2' value=''></td>
+<td align='center'>
+ <select name='freightClass_2'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_2' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_2' value=''></td>
+</tr>
+<tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_3' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_3' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_3' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_3' value=''></td>
+<td align='center'>
+ <select name='freightClass_3'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_3' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_3' value=''></td>
+</tr>
+<tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_4' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_4' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_4' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_4' value=''></td>
+<td align='center'>
+ <select name='freightClass_4'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_4' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_4' value=''></td>
+</tr>
+<tr>
+<td align='center'><input type='text' maxlength='20' size='17'  name='poNumber_5' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='4' name='carton_5' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='weight_5' value=''></td>
+<td align='center'><input type='text' maxlength='10' size='5' name='cube_5' value=''></td>
+<td align='center'>
+ <select name='freightClass_5'><option value='23'>Non-Furniture - Class-70</option><option value='31'>Furniture - Class-175</option>
+ </select></td>
+<td align='center'><input type='text' maxlength='250' size='19' name='productType_5' value=''></td>
+<td align='center'><input type='text' maxlength='32' size='6' name='reference2_5' value=''></td>
+</tr>
+
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan = 7>
+        <hr noshade size="1" width="700">
+      </td>
+    </tr>
+    <tr>
+      <td colspan = 6><p>All column headings marked in <b>BOLD</b> are required fields and must be entered here.  <br/>In the event you receive an error that says <font color="#ff0016"><b>"PO Number invalid" </font color></b>please call Landair at 866-404-8517 for assistance. </p>
+
+<p>The MCX site number is located on all MCX orders.  This is the Ship to Site location ID or Store number.  The number is 5 numerals in length and begins with 01 through 18.  Ex: 01100, 02100, 11100, 10001 etc.  To view a complete listing of MCX Site numbers, right click on <a href="http://www.usmc-mccs.org/buspartners/sitelisting.cfm?sid=mccs&smid=3&ssmid=5&sssmid=8&ssssmid=5">DOWNLOAD HERE</a> and select "Open in New Window."</p></td>
+    </tr>
+  
+    <tr>
+      <td colspan = 6>Total weight for this order may not exceed 40000.</td>
+    </tr>
+  
+  
+    <tr>
+      <td colspan = 6>Total cube for this order may not exceed 3700.</td>
+      </td>
+    </tr>
+  
+    <tr>
+      <td colspan = 7>
+        <hr noshade size="1" width="700">
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan = 2 style="padding-bottom: 4px">
+        <div align = "center">
+            <a href="javascript:doCancel()"><img src="images/cancel.gif" border="0"></a>&nbsp;&nbsp;&nbsp;
+            <a href="javascript:doAddLineItems()"><img src="images/addMorePOs.gif" border="0"></a>&nbsp;&nbsp;&nbsp;
+            <a href="javascript:doContinue()"><img src="images/next.gif" border="0"></a>
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+
+
+
+
+    <!-- START TWO LOGO DISPLAY -->
+
+    <table width="100%"><tr>
+      <td height=10>&nbsp;</td>
+    </tr></table>
+
+    <table class="FOOTER" width="100%" align="center">
+      <tr><td class="TOP_BORDER">
+      <table width="100%">
+        <tr>
+          <td width="33%" align="center">
+            <img src="images/landair_logo.gif" alt="Footer Logo">
+          </td>
+          <td align="center">
+            <div style="font-size: 10px">&#169 2002-2010 Shippers Commonwealth, LLC<br> All Rights Reserved</div>
+          </td>
+          <td width="33%" align="center" valign="bottom">
+            <a href="http://www.shipperscommonwealth.com">
+              <img src="images/shippers_logo.jpg" border="0" alt="ShipComm Logo">
+            </a><br>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    </table>
+
+    <!-- END TWO LOGO DISPLAY -->
+
+
+
+
+ </form>
+
+</body>
+</html>

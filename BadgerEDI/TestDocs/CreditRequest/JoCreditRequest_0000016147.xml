@@ -1,0 +1,17 @@
+<EdiTx Date="20110816" FromTP="7048710990" FromTPQualifier="12" ToTP="WFG1234567" ToTPQualifier="ZZ" Test="P"
+	BusinessUnit="001" Plant="01">
+	<Order Type="SO" Number="0000016147" Date="20110805" DateRequested="20110815" TotalValue="56.00000"
+		TOSNetDueDate="20110915" TOSNetDaysDue="30" TOSNetDescription="Net 30 Days">
+		<BillTo Number="015991" Name="MCX Headquarters" AddressLine1="US Marine Corps (MRX)" AddressLine2="Personal and Family Readiness Division"
+			City="Quantico" StateOrProvinceCode="VA" PostalCode="22134" CountryCode="US" DUNSNumber="" />
+		<OrderLine Number="10" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="20" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="30" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="40" QuantityOrdered="2.00000" UnitPrice="5.25000" />
+		<OrderLine Number="50" QuantityOrdered="1.00000" UnitPrice="5.25000" />
+		<OrderLine Number="60" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="70" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="80" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+		<OrderLine Number="90" QuantityOrdered="1.00000" UnitPrice="5.75000" />
+	</Order>
+</EdiTx>
